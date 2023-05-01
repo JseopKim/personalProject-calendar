@@ -11,6 +11,8 @@ function styleCreate(obj, styleOb) {
     obj.style[i] = styleOb[i];
   }
 }
+const container = tagCreate("div", {id: "rootParent"});
+document.body.appendChild(container);
 
 function calendar(now) {
   // let now = new Date();
@@ -55,7 +57,7 @@ function calendar(now) {
   let weekOfName = ["Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat"];
 
   let root = tagCreate("div", { id: "root" });
-  document.body.appendChild(root);
+  container.appendChild(root);
   styleCreate(root, {
     display: "flex",
     flexDirection: "column",
@@ -66,7 +68,6 @@ function calendar(now) {
     border: "3px solid black",
     position: "absolute",
     backgroundColor: "white",
-    // backgroundColor: "black"
   });
 
   let monthOfNameBox = tagCreate("div", { id: "month" });
@@ -184,39 +185,26 @@ function calendar(now) {
       }
       countOfWeek++;
     }
-
-    let next = document.getElementById("next");
-    let before = document.getElementById("before");
-
-    // before.addEventListener("click", function () {
-    //   console.log("이전 달")
-    //   let beforeMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
-    //   calendar(beforeMonth);
-    // });
-
-    // next.addEventListener("click", function () {
-    //   console.log("다음 달")
-    //   let nextMonth = new Date(new Date().setMonth(new Date().getMonth() + 1));
-    //   calendar(nextMonth);
-    // });
   }
-  // let next = document.getElementById('next');
-  // let before = document.getElementById('before');
-  // let beforeMonth = new Date(now.setMonth(now.getMonth() - 1));
-  // let nextMonth = now.setMonth(now.getMonth() + 1);
-  console.log(new Date(new Date().setMonth(new Date().getMonth() - 1)));
+
+  let beforeMonth = new Date(now.setMonth(now.getMonth() - 1));
+  let nextMonth = new Date(now.setMonth(now.getMonth() + 1));
+  
+  beforeMonthBtn.addEventListener("click", function () {
+    console.log("이전 달")
+    beforeMonth = new Date(now.setMonth(now.getMonth() - 1));
+    container.innerHTML = '';
+    calendar(beforeMonth);
+    console.log(beforeMonth);
+  });
+  
+  nextMonthBtn.addEventListener("click", function () {
+    console.log("다음 달")
+    nextMonth = new Date(now.setMonth(now.getMonth() + 1));
+    container.innerHTML = '';
+    calendar(nextMonth);
+    console.log(nextMonth)
+  });
 }
 
 calendar(new Date());
-
-before.addEventListener("click", function () {
-  console.log("이전 달")
-  let beforeMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
-  calendar(beforeMonth);
-});
-
-next.addEventListener("click", function () {
-  console.log("다음 달")
-  let nextMonth = new Date(new Date().setMonth(new Date().getMonth() + 1));
-  calendar(nextMonth);
-});
